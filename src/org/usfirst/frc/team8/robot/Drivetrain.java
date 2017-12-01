@@ -1,5 +1,6 @@
 package org.usfirst.frc.team8.robot;
-import com.ctre.MotorControl.CANTalon;
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
@@ -20,7 +21,6 @@ public class Drivetrain{
 	    	 
 	     }
 	     
-	      RobotDrive myDrive = new RobotDrive(1, 2, 3, 4);
 	      Joystick drivestick = new Joystick(1);
 	      Joystick turnstick = new Joystick(2);
 	      Joystick slidestick = new Joystick(3);
@@ -40,11 +40,11 @@ public class Drivetrain{
 	     public void teleopPeriodic() {
 	//TODO: change forward joystick values to negative    	 
 		  
-	    	 	double driveValue = drivestick.getY();
-		    	double turnValue = turnstick.getX();
+	    	double driveValue = -drivestick.getY();
+		    double turnValue = turnstick.getX();
 	         
-			double leftSpeed = drivestick.;
-			double rightSpeed = -1;
+			double leftSpeed = driveValue + turnValue;
+			double rightSpeed = -(driveValue - turnValue);
 			
 			left_1.set((double) leftSpeed);
 			left_2.set((double) leftSpeed);
@@ -53,6 +53,8 @@ public class Drivetrain{
 			right_2.set((double) rightSpeed);
 			right_3.set((double) rightSpeed);
 			
+			System.out.println (leftSpeed);
+			System.out.println (rightSpeed);
 			
 	     }
 	     
