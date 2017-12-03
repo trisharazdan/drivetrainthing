@@ -1,8 +1,14 @@
 package org.usfirst.frc.team8.robot;
 
+import com.ctre.CANTalon;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.RobotDrive;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -12,10 +18,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 public class Robot extends IterativeRobot {
+	   RobotDrive myRobot;
+	     Joystick stick;
+	     Timer timer;
+
 	final String defaultAuto = "Default";
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
+	private Joystick drivestick;
+	private Joystick turnstick;
+	private Joystick slidestick;
+	private Joystick climbstick;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -26,6 +40,12 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
+		
+		drivestick = new Joystick(1);
+		turnstick = new Joystick(2);
+		slidestick = new Joystick(3);
+		climbstick = new Joystick(4);
+		
 	}
 
 	/**
@@ -71,6 +91,32 @@ public class Robot extends IterativeRobot {
 		
 		    Object stick = null;
 			Robot.arcadeDrive(stick); 
+
+	    	double driveValue = -drivestick.getY();
+		    double turnValue = turnstick.getX();
+	         
+			double leftSpeed = driveValue + turnValue;
+			double rightSpeed = -(driveValue - turnValue);
+			
+			System.out.println(driveValue);
+			System.out.println(turnValue);
+			
+			CANTalon left_1 = new CANTalon(1);
+			CANTalon left_2 = new CANTalon(2);
+			CANTalon left_3 = new CANTalon(3);
+			CANTalon right_1 = new CANTalon(4);
+			CANTalon right_2 = new CANTalon(5);
+			CANTalon right_3 = new CANTalon(6);
+			
+			left_1.set((double) leftSpeed);
+			left_2.set((double) leftSpeed);
+			left_3.set((double) leftSpeed);
+			right_1.set((double) rightSpeed);
+			right_2.set((double) rightSpeed);
+			right_3.set((double) rightSpeed); 
+	   	  
+			System.out.println (leftSpeed);
+			System.out.println (rightSpeed);
 	}
 
 	private static void arcadeDrive(Object stick) {
